@@ -1,3 +1,25 @@
+##   public function create(Request $request, User $user)
+    {
+        
+        $table = Table::where('module_id', '1')->get();
+        $tableArray = $table->toArray();
+
+        foreach ($tableArray as $key => $value) {
+            if ($value["required"] == 0) {
+                $required =  $value["required"] = '';
+            } elseif ($value["required"] == 1) {
+                $required =    $value["required"] = 'required';
+            }
+            $filable = $value["filable"];
+            $type = $value["fillable_type"];
+
+            $validated = $request->validate([
+                '' . $filable . '' => ['' . $type . '', '' . $required . ''],
+            ]);
+        }
+
+    }
+    ##
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
