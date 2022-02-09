@@ -41,7 +41,7 @@ class TableController extends Controller
                 '' . $filable . '' => ['' . $type . '', '' . $required . ''],
 
             ]);
-            var_dump($validated);
+            $user::create($validated);
             //   $value["required"] ;
 
 
@@ -58,6 +58,7 @@ class TableController extends Controller
         
         $table = Table::where('module_id', '1')->get();
         $tableArray = $table->toArray();
+        $validated = [];
 
         foreach ($tableArray as $key => $value) {
             if ($value["required"] == 0) {
@@ -68,11 +69,14 @@ class TableController extends Controller
             $filable = $value["filable"];
             $type = $value["fillable_type"];
 
-            $validated = $request->validate([
+            $validated = array_merge($validated, $request->validate([
                 '' . $filable . '' => ['' . $type . '', '' . $required . ''],
-            ]);
-        }
+            ]));
 
+        }
+        $user::create($validated);
+        
+      //  var_dump(dd());
     }
 
     /**
